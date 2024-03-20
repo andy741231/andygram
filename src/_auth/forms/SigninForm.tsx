@@ -19,7 +19,7 @@ const SigninForm = () => {
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 
   // Query
-  const { mutateAsync: signInAccount, isLoading } = useSignInAccount();
+  const { mutateAsync: signInAccount } = useSignInAccount();
 
   const form = useForm<z.infer<typeof SigninValidation>>({
     resolver: zodResolver(SigninValidation),
@@ -34,13 +34,13 @@ const SigninForm = () => {
 
     if (!session) {
       toast({ title: "Login failed. Please try again." });
-      
       return;
     }
 
     const isLoggedIn = await checkAuthUser();
-
+    console.log("3")
     if (isLoggedIn) {
+      console.log('4')
       form.reset();
 
       navigate("/");
@@ -94,7 +94,7 @@ const SigninForm = () => {
           />
 
           <Button type="submit" className="shad-button_primary">
-            {isLoading || isUserLoading ? (
+            {isUserLoading ? (
               <div className="flex-center gap-2">
                 <Loader /> Loading...
               </div>
